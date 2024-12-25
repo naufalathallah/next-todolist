@@ -13,12 +13,12 @@ interface TodoTabProps {
   fetchTodos: () => void;
 }
 
-const { TabPane } = Tabs;
-
 const TodoTab: React.FC<TodoTabProps> = ({ todos, fetchTodos }) => {
-  return (
-    <Tabs defaultActiveKey="1">
-      <TabPane tab="All" key="1">
+  const items = [
+    {
+      key: "1",
+      label: "All",
+      children: (
         <Row>
           <Col span={24}>
             <List
@@ -27,8 +27,12 @@ const TodoTab: React.FC<TodoTabProps> = ({ todos, fetchTodos }) => {
             />
           </Col>
         </Row>
-      </TabPane>
-      <TabPane tab="Completed" key="2">
+      ),
+    },
+    {
+      key: "2",
+      label: "Completed",
+      children: (
         <Row>
           <Col span={24}>
             <List
@@ -37,8 +41,12 @@ const TodoTab: React.FC<TodoTabProps> = ({ todos, fetchTodos }) => {
             />
           </Col>
         </Row>
-      </TabPane>
-      <TabPane tab="Incomplete" key="3">
+      ),
+    },
+    {
+      key: "3",
+      label: "Incomplete",
+      children: (
         <Row>
           <Col span={24}>
             <List
@@ -47,9 +55,11 @@ const TodoTab: React.FC<TodoTabProps> = ({ todos, fetchTodos }) => {
             />
           </Col>
         </Row>
-      </TabPane>
-    </Tabs>
-  );
+      ),
+    },
+  ];
+
+  return <Tabs defaultActiveKey="1" items={items} />;
 };
 
 export default TodoTab;

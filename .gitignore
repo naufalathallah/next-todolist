@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Playwright Test Results
+playwright-report/
+playwright-test-results/
+test-results/
+
+# Screenshots and Videos (if configured in Playwright)
+tests/screenshots/
+tests/videos/
+tests/traces/
