@@ -51,11 +51,20 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # Step 8: Run Playwright tests using Bun (Chromium only)
+      # Step 8: Cache Playwright browsers
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      # Step 9: Run Playwright tests (Chromium only)
       - name: Run Playwright E2E tests (Chromium)
         run: bun playwright test --project=chromium
 
-      # Step 9: Upload screenshots and videos if tests fail
+      # Step 10: Upload screenshots and videos if tests fail
       - name: Upload Playwright artifacts
         if: failure()
         uses: actions/upload-artifact@v3
