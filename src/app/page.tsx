@@ -1,9 +1,9 @@
-import { Button } from "antd";
+import TodoList from "@/components/TodoList";
 
 export default function Home() {
   return (
     <div className="App">
-      <Button type="primary">Button</Button>
+      <TodoList />
     </div>
   );
 }
