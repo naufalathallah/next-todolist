@@ -5,6 +5,7 @@ import { Layout } from "antd";
 import { getTodos } from "../services/todoService";
 import TodoTab from "./TodoTab";
 import TodoForm from "./TodoForm";
+import "./TodoList.css"; // Import the CSS file
 
 const { Content } = Layout;
 
@@ -21,7 +22,7 @@ const TodoList: React.FC = () => {
   }, []);
 
   return (
-    <Content>
+    <Content className="container">
       <TodoForm onAdd={fetchTodos} />
       <TodoTab todos={todos} fetchTodos={fetchTodos} />
     </Content>
