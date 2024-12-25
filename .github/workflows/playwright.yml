@@ -60,11 +60,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-playwright-
 
-      # Step 9: Run Playwright tests (Chromium only)
+      # Step 9: Start Next.js server
+      - name: Start Next.js server
+        run: NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 bun run dev &
+        env:
+          NODE_ENV: development
+
+      # Step 10: Wait for Next.js server to be ready
+      - name: Wait for Next.js server
+        run: sleep 10
+
+      # Step 11: Run Playwright tests (Chromium only)
       - name: Run Playwright E2E tests (Chromium)
         run: bun run test:e2e
 
-      # Step 10: Upload screenshots and videos if tests fail
+      # Step 12: Upload screenshots and videos if tests fail
       - name: Upload Playwright artifacts
         if: failure()
         uses: actions/upload-artifact@v3
