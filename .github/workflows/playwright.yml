@@ -28,23 +28,37 @@ jobs:
         run: |
           curl -fsSL https://bun.sh/install | bash
           echo 'export PATH="$HOME/.bun/bin:$PATH"' >> $GITHUB_ENV
+          export PATH="$HOME/.bun/bin:$PATH"
 
-      # Step 4: Install dependencies using Bun
+      # Step 4: Validate Bun installation
+      - name: Validate Bun Installation
+        run: bun --version
+
+      # Step 5: Cache Bun dependencies
+      - name: Cache Bun dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      # Step 6: Install dependencies using Bun
       - name: Install dependencies
         run: bun install
 
-      # Step 5: Install Playwright dependencies
+      # Step 7: Install Playwright dependencies
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: bun playwright install --with-deps
 
-      # Step 6: Run Playwright tests using Bun (Chromium only)
+      # Step 8: Run Playwright tests using Bun (Chromium only)
       - name: Run Playwright E2E tests (Chromium)
         run: bun playwright test --project=chromium
 
-      # Step 7: Upload screenshots and videos if tests fail
+      # Step 9: Upload screenshots and videos if tests fail
       - name: Upload Playwright artifacts
         if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: playwright-artifacts
-          path: tests/screenshots
+          path: tests/screenshots/
