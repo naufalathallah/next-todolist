@@ -24,6 +24,12 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Input
@@ -32,6 +38,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
         placeholder="Add a new todo"
         style={{ marginRight: 8 }}
         required
+        onKeyPress={handleKeyPress}
       />
       <Button type="primary" icon={<PlusCircleFilled />} onClick={handleSubmit}>
         Add Todo
