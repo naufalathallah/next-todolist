@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test:e2e": "bun playwright test --project=chromium",
-    "test:e2e:headed": "bun playwright test --project=chromium --headed"
+    "test:e2e:headed": "bun playwright test --project=chromium --headed",
+    "install:playwright": "playwright install --with-deps"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
