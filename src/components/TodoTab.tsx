@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Tabs, Row, Col, List } from "antd";
-import { getTodos } from "../services/todoService";
 import TodoItem from "./TodoItem";
 
 interface Todo {
@@ -9,27 +8,21 @@ interface Todo {
   completed: boolean;
 }
 
+interface TodoTabProps {
+  todos: Todo[];
+  fetchTodos: () => void;
+}
+
 const { TabPane } = Tabs;
 
-const TodoTab: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  const fetchTodos = async () => {
-    const data = await getTodos();
-    setTodos(data);
-  };
-
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
+const TodoTab: React.FC<TodoTabProps> = ({ todos, fetchTodos }) => {
   return (
     <Tabs defaultActiveKey="1">
       <TabPane tab="All" key="1">
         <Row>
           <Col span={24}>
             <List
-              dataSource={todos}
+              dataSource={todos || []}
               renderItem={(todo: Todo) => <TodoItem key={todo.id} {...todo} onUpdate={fetchTodos} />}
             />
           </Col>
@@ -39,7 +32,7 @@ const TodoTab: React.FC = () => {
         <Row>
           <Col span={24}>
             <List
-              dataSource={todos.filter((todo) => todo.completed)}
+              dataSource={(todos && todos.filter((todo) => todo.completed)) || []}
               renderItem={(todo: Todo) => <TodoItem key={todo.id} {...todo} onUpdate={fetchTodos} />}
             />
           </Col>
@@ -49,7 +42,7 @@ const TodoTab: React.FC = () => {
         <Row>
           <Col span={24}>
             <List
-              dataSource={todos.filter((todo) => !todo.completed)}
+              dataSource={(todos && todos.filter((todo) => !todo.completed)) || []}
               renderItem={(todo: Todo) => <TodoItem key={todo.id} {...todo} onUpdate={fetchTodos} />}
             />
           </Col>
